@@ -4,7 +4,8 @@ import { Button } from 'reactstrap';
 export default props => (
   <tr>
     <th scope="row">{props.user.id}</th>
-    <td>{props.user.name}</td>
+    <td>{props.user.fName}</td>
+    <td>{props.user.lName}</td>
     <td>
       {props.user.rank}
       {' '}

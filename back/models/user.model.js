@@ -16,7 +16,8 @@ var sequelize = new Sequelize('AppDTY', null, null, {
 
 var Users = sequelize.define('Users', {
 	// id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-	name: Sequelize.STRING,
+	fName: Sequelize.STRING,
+	lName: Sequelize.STRING,
 	rank: Sequelize.STRING
 }, {
 	timestamps: false,
@@ -26,12 +27,14 @@ var Users = sequelize.define('Users', {
 
 sequelize.sync({ force: true }).then(() => {
 	Users.create({
-		name: 'John Doe',
+		fName: 'John',
+		lName: 'Doe',
 		rank: 'administrator',
 	}).then(out => console.log(out.dataValues));
 
 	Users.create({
-		name: 'Jane Deer',
+		fName: 'Jane',
+		lName: 'Deer',
 		rank: 'user',
 	}).then(out => console.log(out.dataValues));
 })
@@ -47,8 +50,19 @@ function getUser(id) {
 	return Users.findById(id);
 }
 
-function addUser(name, rank) {
-	return Users.create({ name: name, rank: rank });
+function searchUser(name) {
+	return Users.findAll({
+		where: {
+			$or: [
+				{ fName: name },
+				{ lName: name }
+			]
+		}
+	});
+}
+
+function addUser(fName, lName, rank) {
+	return Users.create({ fName: fName, lName: lName, rank: rank });
 }
 
 function changeUserRank(id, rank) {
@@ -67,4 +81,4 @@ function deleteUser(id) {
 		})
 }
 
-module.exports = {getUsers, getUser, addUser, changeUserRank, deleteUser}
+module.exports = {getUsers, getUser, searchUser, addUser, changeUserRank, deleteUser}

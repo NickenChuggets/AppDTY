@@ -6,10 +6,11 @@ class AddUserPopup extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { selectedRank: '', selectedName: '' };
+    this.state = { selectedRank: '', selectedFName: '', selectedLName: '' };
 
     this.onChangeRadio = this.onChangeRadio.bind(this);
-    this.onChangeName = this.onChangeName.bind(this);
+    this.onChangeFName = this.onChangeFName.bind(this);
+    this.onChangeLName = this.onChangeLName.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -17,8 +18,12 @@ class AddUserPopup extends React.Component {
     this.setState({ selectedRank: event.target.value });
   }
 
-  onChangeName(event) {
-    this.setState({ selectedName: event.target.value });
+  onChangeFName(event) {
+    this.setState({ selectedFName: event.target.value });
+  }
+
+  onChangeLName(event) {
+    this.setState({ selectedLName: event.target.value });
   }
 
   onSubmit(event) {
@@ -30,10 +35,12 @@ class AddUserPopup extends React.Component {
       },
       body: JSON.stringify({
         rank: this.state.selectedRank,
-        name: this.state.selectedName,
+        fName: this.state.selectedFName,
+        lName: this.state.selectedLName
       }),
     }).then(() => this.props.onSubmit());
-    this.setState({ selectedName: '' });
+    this.setState({ selectedFName: '' });
+    this.setState({ selectedLName: '' });
     this.props.toggle();
   }
 
@@ -46,11 +53,19 @@ class AddUserPopup extends React.Component {
           </ModalHeader>
           <ModalBody>
             <FormGroup>
-              <Label>Name</Label>
+              <Label>Prénom</Label>
               <Input
-                value={this.state.selectedName}
-                onChange={this.onChangeName}
-                placeholder="John Doe"
+                value={this.state.selectedFName}
+                onChange={this.onChangeFName}
+                placeholder="John"
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label>Nom</Label>
+              <Input
+                value={this.state.selectedLName}
+                onChange={this.onChangeLName}
+                placeholder="Doe"
               />
             </FormGroup>
             <FormGroup tag="fieldset">

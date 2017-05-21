@@ -17,6 +17,7 @@ export default props => {
       <thead>
         <tr>
           <th>#</th>
+          <th>Prénom</th>
           <th>Nom</th>
           <th>Rôle</th>
           <th>

@@ -13,8 +13,13 @@ router.get('/:id', function(req, res) {
 	userModel.getUser(id).then(out => res.json(out));
 });
 
+router.get('/:name'), function(req, res) {
+	var name = parse(req.params.name);
+	userModel.searchUser(name).then(out => res.json(out));
+}
+
 router.post('/', function(req, res) {
-	userModel.addUser(req.body.name, req.body.rank).then(out => res.json(out.dataValues))
+	userModel.addUser(req.body.fName, req.body.lName, req.body.rank).then(out => res.json(out.dataValues))
 	.catch(err => res.json(err));
 });
 
