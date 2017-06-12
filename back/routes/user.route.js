@@ -2,21 +2,20 @@ var express = require('express');
 var userModel = require('../models/user.model');
 var router = express.Router();
 
-
-/* GET users listing. */
 router.get('/', function(req, res) {
-	userModel.getUsers().then(out => res.json(out));
+	if (req.query.name === undefined) {
+		console.log('tout')
+		userModel.getUsers().then(out => res.json(out));
+	} else {
+		console.log(req.query.name)
+		userModel.searchUser(req.query.name).then(out => res.json(out))
+	}
 });
 
 router.get('/:id', function(req, res) {
 	var id = parseInt(req.params.id);
 	userModel.getUser(id).then(out => res.json(out));
 });
-
-router.get('/:name'), function(req, res) {
-	var name = parse(req.params.name);
-	userModel.searchUser(name).then(out => res.json(out));
-}
 
 router.post('/', function(req, res) {
 	userModel.addUser(req.body.fName, req.body.lName, req.body.rank).then(out => res.json(out.dataValues))

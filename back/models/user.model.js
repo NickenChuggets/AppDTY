@@ -22,7 +22,6 @@ var Users = sequelize.define('Users', {
 }, {
 	timestamps: false,
 	tableUser: 'Users',
-	force: true,
 });
 
 sequelize.sync({ force: true }).then(() => {
@@ -39,7 +38,6 @@ sequelize.sync({ force: true }).then(() => {
 	}).then(out => console.log(out.dataValues));
 })
 
-
 function getUsers() {
 	return Users.findAll(
 		{ raw: true }
@@ -54,8 +52,8 @@ function searchUser(name) {
 	return Users.findAll({
 		where: {
 			$or: [
-				{ fName: name },
-				{ lName: name }
+				{ fName: { $like: `%${name}%` } },
+				{ lName: { $like: `%${name}%` } }
 			]
 		}
 	});

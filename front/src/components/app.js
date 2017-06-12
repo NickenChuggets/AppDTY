@@ -4,6 +4,7 @@ import UserTable from './userTable';
 import ChangeRankPopup from './changeRankPopup';
 import DeleteUserPopup from './deleteUserPopup';
 import AddUserPopup from './addUserPopup';
+import SearchBar from './searchBar';
 
 class App extends Component {
 	constructor(props) {
@@ -18,12 +19,18 @@ class App extends Component {
 		};
 
 		this.refresh = this.refresh.bind(this);
+		this.search = this.search.bind(this);
 		this.toggleRankPopup = this.toggleRankPopup.bind(this);
 		this.toggleDeletePopup = this.toggleDeletePopup.bind(this);
 		this.toggleAddPopup = this.toggleAddPopup.bind(this);
 	}
 	refresh() {
 		fetch('http://localhost:3000/users/', { method: 'GET' })
+			.then(res => res.json())
+			.then(json => this.setState({ userList: json }));
+	}
+	search(name) {
+		fetch(`http://localhost:3000/users/?name=${name}`, { method: 'GET' })
 			.then(res => res.json())
 			.then(json => this.setState({ userList: json }));
 	}
@@ -52,6 +59,9 @@ class App extends Component {
 	render() {
 		return (
 			<div style={{ margin: '2em' }} >
+				<SearchBar
+					search={this.search}
+				/>
 				<UserTable
 					userList={this.state.userList}
 					openRankPopup={this.toggleRankPopup}
